@@ -32,7 +32,7 @@ public class Parabolic {
 	float[] startPoint;
 
 
-	public Parabolic(float[] startPoint, float[] endPoint1, float[] endPoint2, int numberOfLines){
+	public Parabolic(float[] startPoint, float[] endPoint1, float[] endPoint2, int numberOfLines) {
 		this.endPoint1 = endPoint1;
 		this.endPoint2 = endPoint2;
 		this.startPoint = startPoint;

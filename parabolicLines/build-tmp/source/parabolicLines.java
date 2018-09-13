@@ -21,14 +21,14 @@ public void setup() {
  	background(50, 166, 240);
 
  	float[] startPoint = new float[2];
- 	startPoint[0] = 200; startPoint[1] = 600;
+ 	startPoint[0] = 200; startPoint[1] = 800;
 
  	//endpoint 1/2 are the points that makes the axis toghether with the start point
  	//for now the endpoints need to be the same distance from the startpoint
  	float[] endPoint1 = new float[3];
- 	endPoint1[0] = 200; endPoint1[1] = 200;
+ 	endPoint1[0] = 0; endPoint1[1] = 0;
  	float[] endPoint2 = new float[3];
- 	endPoint2[0] = 600; endPoint2[1] = 600;
+ 	endPoint2[0] = 800; endPoint2[1] = 800;
 
  	int numberOfLines = 100;
   	Parabolic para = new Parabolic(startPoint, endPoint1, endPoint2, numberOfLines);

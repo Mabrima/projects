@@ -33,11 +33,12 @@ public void draw()
 
 	//Draw animated point
 	for (int i = 0; i < 156*4; i += 16) {
-		if (frame%10 == 0)
-			stroke((random(0, 255)), (random(0, 255)), (random(0, 255)));
+		
 		//point(240 + cos((i + frame) * 0.01) * 100, 240 + sin((i + frame) * 0.01) * 100);
 		for (int j = 0; j < 10; j++){
-			point(160 + cos((i + frame * pow(-1, j)) * 0.01f) * 100, 160 + sin((i + frame * pow(-1, j)) * 0.01f) * 100+j*20);
+			if (frame%10 == 0)
+				stroke((random(0, 255)), (random(0, 255)), (random(0, 255)));
+			point(160 + cos((i + frame * pow(-1, j)) * 0.01f) * 100+j*20, 160 + sin((i + frame * pow(-1, j)) * 0.01f) * 100+j*20);
 		}
 		
 

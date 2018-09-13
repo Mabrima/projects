@@ -15,9 +15,6 @@ import java.io.IOException;
 public class sinCircle extends PApplet {
 
 int frame = 0;
-float multiplier = 0.002f;
-int numberOfPoints = 320;
-int frameFun = 1;
 
 public void setup()
 {
@@ -29,19 +26,25 @@ public void setup()
 public void draw()
 {
 	background(50, 0, 50);
-	float distance = width/100.0f;
-
+	if (frame%10 == 0)
+		stroke((random(0, 255)), (random(0, 255)), (random(0, 255)));
 	//Draw animated point
-	for (int i = 0; i < 156*4; i += 16) {
-		
+	for (int i = 0; i < 2*PI*100; i += 15) {
+		//position             speed          size
 		//point(240 + cos((i + frame) * 0.01) * 100, 240 + sin((i + frame) * 0.01) * 100);
+		
+		
+
 		for (int j = 0; j < 10; j++){
-			if (frame%10 == 0)
-				stroke((random(0, 255)), (random(0, 255)), (random(0, 255)));
-			point(160 + cos((i + frame * pow(-1, j)) * 0.01f) * 100+j*20, 160 + sin((i + frame * pow(-1, j)) * 0.01f) * 100+j*20);
+			point(width/2 + cos((i + frame * pow(-1, j)) * 0.01f) * (100+j*20), height/2 + sin((i + frame * pow(-1, j)) * 0.01f) * (100+j*20));
 		}
 		
 
+
+		/* //circle of different sizes 
+		for (int j = 0; j < 10; j++){
+			point(width/2 + cos((i + frame * pow(-1, j)) * 0.01) * (100+j*20), height/2 + sin((i + frame * pow(-1, j)) * 0.01) * (100+j*20));
+		}
 
 		/* //Cylinder fun
 		for (int j = 0; j < 10; j++){
@@ -59,7 +62,7 @@ public void draw()
 
 	frame++;
 }
-  public void settings() { 	size(640, 480); }
+  public void settings() { 	size(720, 640); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "sinCircle" };
     if (passedArgs != null) {

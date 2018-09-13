@@ -2,7 +2,7 @@ int frame = 0;
 
 void setup()
 {
-	size(640, 480);
+	size(720, 640);
 	strokeWeight(5);
 	frameRate(30);
 }
@@ -10,19 +10,23 @@ void setup()
 void draw()
 {
 	background(50, 0, 50);
-	float distance = width/100.0;
-
+	if (frame%10 == 0)
+		stroke((random(0, 255)), (random(0, 255)), (random(0, 255)));
 	//Draw animated point
-	for (int i = 0; i < 156*4; i += 16) {
+	for (int i = 0; i < 2*PI*100; i += 15) {
+		//position             speed          size
+		point(240 + cos((i + frame) * 0.01) * 100, 240 + sin((i + frame) * 0.01) * 100);
 		
-		//point(240 + cos((i + frame) * 0.01) * 100, 240 + sin((i + frame) * 0.01) * 100);
-		for (int j = 0; j < 10; j++){
-			if (frame%10 == 0)
-				stroke((random(0, 255)), (random(0, 255)), (random(0, 255)));
-			point(160 + cos((i + frame * pow(-1, j)) * 0.01) * 100+j*20, 160 + sin((i + frame * pow(-1, j)) * 0.01) * 100+j*20);
-		}
 		
 
+		
+		
+
+
+		/* //circle of different sizes 
+		for (int j = 0; j < 10; j++){
+			point(width/2 + cos((i + frame * pow(-1, j)) * 0.01) * (100+j*20), height/2 + sin((i + frame * pow(-1, j)) * 0.01) * (100+j*20));
+		}
 
 		/* //Cylinder fun
 		for (int j = 0; j < 10; j++){

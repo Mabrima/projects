@@ -1,3 +1,19 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class sketch_2018_09_11 extends PApplet {
+
 int scanLineDistance = 10;
 int frames = 0;
 boolean goingUp = false;
@@ -5,16 +21,16 @@ boolean goingRight = true;
 int x = 0;
 int y = 0;
 
-void setup() {
-  size(440, 250);
-  strokeWeight(2.5);
+public void setup() {
+  
+  strokeWeight(2.5f);
   background(50, 166, 240);
   fill(50, 166, 240);
   stroke(0, 0, 0);
   // frameRate(24);
 }
 
-void draw() {
+public void draw() {
   int xHolder = 0;
   int xSpace = 20;
   int minY = 40;
@@ -41,7 +57,7 @@ void draw() {
   
 }
 
-void checkX(int nameSize){
+public void checkX(int nameSize){
   if (x < -20) {
     goingRight = true;
   }
@@ -50,7 +66,7 @@ void checkX(int nameSize){
   }  
 }
 
-void checkY(int maxY){
+public void checkY(int maxY){
   if (y < -40) {
     goingUp = false;
   }
@@ -59,7 +75,7 @@ void checkY(int maxY){
   }
 }
 
-void moveX() {
+public void moveX() {
   if (goingRight) {
     x++;
   }
@@ -68,7 +84,7 @@ void moveX() {
   }
 }
 
-void moveY() {
+public void moveY() {
   if (goingUp) {
     y--;
   }
@@ -77,7 +93,7 @@ void moveY() {
   }
 }
 
-void scanLines() {
+public void scanLines() {
   stroke(50, 50, 50);
   for (int i = 0; i < height; i += scanLineDistance) {
     line(0, i + frames % scanLineDistance, width, i + frames % scanLineDistance);
@@ -85,7 +101,7 @@ void scanLines() {
 }
 
 //TODO minY maxY inte helt inprogrammerade
-int paintName(int xHolder, int xSpace, int minY, int maxY) {
+public int paintName(int xHolder, int xSpace, int minY, int maxY) {
   int temp;
   xHolder += xSpace;
   
@@ -112,7 +128,7 @@ int paintName(int xHolder, int xSpace, int minY, int maxY) {
   return xHolder;
 }
 
-int paintReverseName(int xHolder, int xSpace, int minY, int maxY) {
+public int paintReverseName(int xHolder, int xSpace, int minY, int maxY) {
   int temp;
   xHolder += xSpace;
   
@@ -139,7 +155,7 @@ int paintReverseName(int xHolder, int xSpace, int minY, int maxY) {
   return xHolder;
 }
 
-void animateName(int xHolder, int xSpace, int minY, int maxY) { //TODO
+public void animateName(int xHolder, int xSpace, int minY, int maxY) { //TODO
   /* xHolder = paintR(xHolder, 40, 200);
   paintO();
   paintB();
@@ -147,7 +163,7 @@ void animateName(int xHolder, int xSpace, int minY, int maxY) { //TODO
   paintN(); */
 }
 
-int paintR(int x, int minY, int maxY) {
+public int paintR(int x, int minY, int maxY) {
   // x=20 y=40 // x = start xPos // y = top yPos 
   arc(x, 80, 90, 80, -HALF_PI, HALF_PI, CHORD); 
   line(x, 120, x, maxY);
@@ -155,28 +171,38 @@ int paintR(int x, int minY, int maxY) {
   return 46; // x size of R 
 }
 
-int paintO(int x, int minY, int maxY) {
+public int paintO(int x, int minY, int maxY) {
   // x + 40 
   ellipse(x + 40, 120, 100, 160); 
   return 80;
 }
 
-int paintB(int x, int minY, int maxY) {
+public int paintB(int x, int minY, int maxY) {
   rect(x, 40, 60, 80, 0, 60, 60, 0); 
   rect(x, 120, 60, 80, 0, 60, 60, 0);
   return 60;
 }
 
-int paintI(int x, int minY, int maxY) {
+public int paintI(int x, int minY, int maxY) {
   line(x, minY, x, maxY);
   line(x-10, minY, x+10, minY);
   line(x-10, maxY, x+10, maxY);
   return 0;
 }
 
-int paintN(int x, int minY, int maxY) {
+public int paintN(int x, int minY, int maxY) {
   line(x, minY, x, maxY);
   line(x, minY, x+70, maxY);
   line(x+70, minY, x+70, maxY);
   return 70;
+}
+  public void settings() {  size(440, 250); }
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "sketch_2018_09_11" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }

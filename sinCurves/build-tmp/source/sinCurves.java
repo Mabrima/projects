@@ -15,8 +15,6 @@ import java.io.IOException;
 public class sinCurves extends PApplet {
 
 int frame = 0;
-float multiplier = 0.002f;
-int numberOfPoints = 320;
 
 public void setup()
 {

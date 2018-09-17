@@ -1,13 +1,11 @@
 int frame = 0;
 
-void setup()
-{
+void setup() {
 	size(640, 480);
 	strokeWeight(5);
 }
 
-void draw()
-{
+void draw() {
 	background(50, 0, 50);
 	float distance = width/100.0;
 

@@ -21,7 +21,7 @@ public void setup() {
  	background(50, 166, 240);
 
  	float[] startPoint = new float[2];
- 	startPoint[0] = 200; startPoint[1] = 800;
+ 	startPoint[0] = 0; startPoint[1] = 800;
 
  	//endpoint 1/2 are the points that makes the axis toghether with the start point
  	//for now the endpoints need to be the same distance from the startpoint
@@ -48,7 +48,7 @@ public class Parabolic {
 	float[] startPoint;
 
 
-	public Parabolic(float[] startPoint, float[] endPoint1, float[] endPoint2, int numberOfLines){
+	public Parabolic(float[] startPoint, float[] endPoint1, float[] endPoint2, int numberOfLines) {
 		this.endPoint1 = endPoint1;
 		this.endPoint2 = endPoint2;
 		this.startPoint = startPoint;

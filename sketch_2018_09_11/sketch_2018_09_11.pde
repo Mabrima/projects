@@ -29,7 +29,7 @@ void draw() {
   translate(x, y); 
   moveX();
   moveY();
-  int nameSize = paintReverseName(xHolder, xSpace, minY, maxY);
+  int nameSize = paintName(xHolder, xSpace, minY, maxY);
   checkX(nameSize);
   checkY(maxY);
 

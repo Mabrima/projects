@@ -12,40 +12,53 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class CircleChase extends PApplet {
+public class CircleBounce extends PApplet {
 
 int frame = 0;
 PVector circleVector = new PVector(0, 0);
 PVector v = new PVector(0, 0);
+int sizeOfCircle = 50;
+int speed = 5;
+int xSpeed = 0;
+int ySpeed = 0;
 
 public void setup() {
 	
-	strokeWeight(5);
-	stroke(0, 100, 255);
+	strokeWeight(50);
+  stroke(0, 100, 255);
 }
 
 
 
 public void draw() {
   background(204);
-
-  for (int i = 0; i < 2*PI*100; i += 15) {
-  	point(circleVector.x + cos((i + frame) * 0.01f) * 100, circleVector.y + sin((i + frame) * 0.01f) * 100);
-  }
-
-  point(circleVector.x , circleVector.y);
+  strokeWeight(sizeOfCircle);
+  checkBorders();
   move();
+  point(circleVector.x , circleVector.y);  
   frame++;
 }
 
-public void move(){
-	v.set(mouseX - circleVector.x, mouseY - circleVector.y);
-	v.normalize();
+public void checkBorders() {
+  if (v.x + circleVector.x >= width + speed - sizeOfCircle/2) {
+    xSpeed = -speed;
+  } else if (v.x + circleVector.x <= 0 - speed + sizeOfCircle/2) {
+    xSpeed = speed;
+  } 
+  if (v.y + circleVector.y >= height + speed - sizeOfCircle/2) {
+    ySpeed = -speed;
+  } else if (v.y + circleVector.y <= 0 - speed + sizeOfCircle/2) {
+    ySpeed = speed;
+  }
+}
+
+public void move() {
+  v.set(xSpeed, ySpeed);
 	circleVector.add(v);
 }
   public void settings() { 	size(640, 480); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "CircleChase" };
+    String[] appletArgs = new String[] { "CircleBounce" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

@@ -19,14 +19,16 @@ int posX = 5;
 int posY = 2;
 int headXpos = 4;
 int headYpos = 2;
-int sizeMulti = 10;
+int gameSpeed = 2;
 boolean goingUp = false;
 boolean goingRight = false;
 Directions dir = Directions.NONE;
 
+
 public void setup() {
 	
 	strokeWeight(5);
+	frameRate(60);
 }
 
 public void draw() {
@@ -36,9 +38,9 @@ public void draw() {
 	//Draw animated point
 	for (int i = 0; i < width; i += distance) {
 		stroke(200, 0, 0); //red
-		line(2 * sizeMulti, 2 * sizeMulti, headXpos * sizeMulti, headYpos * sizeMulti);
+		line(2 * gameSpeed, 2 * gameSpeed, headXpos * gameSpeed, headYpos * gameSpeed);
 		stroke(0, 100, 255); //blue
-		point(posX * sizeMulti, posY * sizeMulti);
+		point(posX * gameSpeed, posY * gameSpeed);
 	}
 	snakeHandler();
 	

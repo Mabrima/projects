@@ -18,9 +18,8 @@ int frame = 0;
 PVector circleVector = new PVector(0, 0);
 PVector v = new PVector(0, 0);
 int sizeOfCircle = 50;
-int speed = 5;
-int xSpeed = 0;
-int ySpeed = 0;
+float xSpeed = random(-5, 5);
+float ySpeed = random(-5, 5);
 
 public void setup() {
 	
@@ -40,15 +39,15 @@ public void draw() {
 }
 
 public void checkBorders() {
-  if (v.x + circleVector.x >= width + speed - sizeOfCircle/2) {
-    xSpeed = -speed;
-  } else if (v.x + circleVector.x <= 0 - speed + sizeOfCircle/2) {
-    xSpeed = speed;
+  if (v.x + circleVector.x >= width + xSpeed - sizeOfCircle/2) {
+    xSpeed *= -1;
+  } else if (v.x + circleVector.x <= 0 + xSpeed + sizeOfCircle/2) {
+    xSpeed = abs(xSpeed);
   } 
-  if (v.y + circleVector.y >= height + speed - sizeOfCircle/2) {
-    ySpeed = -speed;
-  } else if (v.y + circleVector.y <= 0 - speed + sizeOfCircle/2) {
-    ySpeed = speed;
+  if (v.y + circleVector.y >= height + ySpeed - sizeOfCircle/2) {
+    ySpeed *= -1;
+  } else if (v.y + circleVector.y <= 0 + ySpeed + sizeOfCircle/2) {
+    ySpeed = abs(ySpeed);
   }
 }
 

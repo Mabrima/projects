@@ -1,50 +1,83 @@
 int frame = 0;
 int posX = 5;
 int posY = 2;
-int headXpos = 4;
-int headYpos = 2;
-int gameSpeed = 2;
+int gameSpeed = 10;
 boolean goingUp = false;
 boolean goingRight = false;
 Directions dir = Directions.NONE;
+ArrayList<Integer> snakeBody = new ArrayList<Integer>();
 
 
 void setup() {
 	size(640, 480);
-	strokeWeight(5);
-	frameRate(60);
+	strokeWeight(gameSpeed);
+	frameRate(10);
+	snakeBodyInitiate();
+	println(snakeBody.size());
 }
 
 void draw() {
 	background(50, 0, 50);
 	float distance = width/100.0;
-
-	//Draw animated point
-	for (int i = 0; i < width; i += distance) {
-		stroke(200, 0, 0); //red
-		line(2 * gameSpeed, 2 * gameSpeed, headXpos * gameSpeed, headYpos * gameSpeed);
-		stroke(0, 100, 255); //blue
-		point(posX * gameSpeed, posY * gameSpeed);
-	}
+	
 	snakeHandler();
+
+	stroke(200, 0, 0); //red
+	snakeBodyUpdate();
+	// line(2 * gameSpeed, 2 * gameSpeed, snakeBody.get(0) * gameSpeed, snakeBody.get(1) * gameSpeed);
+	
+	stroke(0, 100, 255); //blue
+	point(posX * gameSpeed, posY * gameSpeed);
+	
+	
+	
 	
 	frame++;
 }
 
+void snakeBodyInitiate() {
+	snakeBody.add(2 * gameSpeed);
+	snakeBody.add(2 * gameSpeed);
+
+	snakeBody.add(1 * gameSpeed);
+	snakeBody.add(2 * gameSpeed);
+
+	snakeBody.add(0 * gameSpeed);
+	snakeBody.add(2 * gameSpeed);
+
+	snakeBody.add(0 * gameSpeed);
+	snakeBody.add(1 * gameSpeed);
+}
+
+void snakeBodyUpdate() {
+	for (int i = 0; i < snakeBody.size() - 4; i += 2) {
+		line(snakeBody.get(i), snakeBody.get(i+1), snakeBody.get(i+2), snakeBody.get(i+3));
+	}
+
+}
+
 void snakeHandler() {
+	snakeBodyMove();
 	switch (dir) {
 		case DOWN:
-			headYpos++;
+			snakeBody.set(1, snakeBody.get(1) + 1*gameSpeed);
 			break;
 		case UP: 
-			headYpos--;
+			snakeBody.set(1, snakeBody.get(1) - 1*gameSpeed);
 			break;
 		case LEFT:
-			headXpos--;
+			snakeBody.set(0, snakeBody.get(0) - 1*gameSpeed);
 			break;
 		case RIGHT:
-			headXpos++;
+			snakeBody.set(0, snakeBody.get(0) + 1*gameSpeed);
 			break;
+	}
+}
+
+void snakeBodyMove() {
+	for (int i = snakeBody.size()-1; i > 0 + 4; i -= 2) {
+		snakeBody.set(i, snakeBody.get(i-2));
+		snakeBody.set(i-1, snakeBody.get(i-3));
 	}
 }
 
@@ -66,17 +99,4 @@ void keyPressed() {
 		}
 	}
 
-
-
-  // if (key == CODED) {
-  //   if (keyCode == UP) {
-  //     	dir = Directions.UP;
-  //   } else if (keyCode == DOWN) {
-  //     	dir = Directions.DOWN;
-  //   } else if (keyCode == LEFT) {
-  //   	dir = Directions.LEFT;
-  //   } else if (keyCode == RIGHT) {
-  //   	dir = Directions.RIGHT;
-  //   }
-  // } 
 }

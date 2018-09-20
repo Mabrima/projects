@@ -1,10 +1,9 @@
-int frame = 0;
-int posX = 5;
-int posY = 2;
 int gameSpeed = 10;
-boolean goingUp = false;
-boolean goingRight = false;
+int posX = 5*gameSpeed;
+int posY = 2*gameSpeed;
 Directions dir = Directions.NONE;
+boolean gameOver = false;
+
 ArrayList<Integer> snakeBody = new ArrayList<Integer>();
 
 
@@ -13,26 +12,57 @@ void setup() {
 	strokeWeight(gameSpeed);
 	frameRate(10);
 	snakeBodyInitiate();
-	println(snakeBody.size());
+	// println(snakeBody.size());
 }
 
 void draw() {
-	background(50, 0, 50);
-	float distance = width/100.0;
+	if (!gameOver) {
+		
+		background(50, 0, 50);
+		if (dir != Directions.NONE) {
+			stroke(200, 0, 0); //red
+			
+			snakeHandler();
+			snakeBodyUpdate();
+			gameOver = snakeCollision();
 	
-	snakeHandler();
+			if(appleCollision()) {
+				appleEat();
+			}
+		
+			stroke(0, 100, 255); //blue
+			point(posX, posY);
+		}
+	}
+}
 
-	stroke(200, 0, 0); //red
-	snakeBodyUpdate();
-	// line(2 * gameSpeed, 2 * gameSpeed, snakeBody.get(0) * gameSpeed, snakeBody.get(1) * gameSpeed);
-	
-	stroke(0, 100, 255); //blue
-	point(posX * gameSpeed, posY * gameSpeed);
-	
-	
-	
-	
-	frame++;
+boolean snakeCollision(){
+	for (int i = 2; i < snakeBody.size(); i+= 2) {
+		if (snakeBody.get(0) == snakeBody.get(i) && snakeBody.get(1) == snakeBody.get(i+1)){
+			println("Game Over!");
+			return true;
+		}
+	}
+	return false;
+}
+
+boolean appleCollision(){
+	return snakeBody.get(0) == posX && snakeBody.get(1) == posY;
+}
+
+void appleEat() {
+	makeNewApple();
+	snakeBodyIncrease();
+}
+
+void makeNewApple() {
+	posX = (int) random(1, width/gameSpeed) * gameSpeed;
+	posY = (int) random(1, height/gameSpeed) * gameSpeed;
+}
+
+void snakeBodyIncrease(){
+	snakeBody.add(snakeBody.get(snakeBody.size()-2));
+	snakeBody.add(snakeBody.get(snakeBody.size()-1));
 }
 
 void snakeBodyInitiate() {
@@ -75,7 +105,7 @@ void snakeHandler() {
 }
 
 void snakeBodyMove() {
-	for (int i = snakeBody.size()-1; i > 0 + 4; i -= 2) {
+	for (int i = snakeBody.size()-1; i > 0 + 2; i -= 2) {
 		snakeBody.set(i, snakeBody.get(i-2));
 		snakeBody.set(i-1, snakeBody.get(i-3));
 	}

@@ -1,6 +1,7 @@
 public class Zombie extends Human {
 
 	public Zombie () {
+		size = random(17, 22);
 		super.alive = false;
 		super.rColor = random(30, 70);
         super.gColor = random(120, 170);

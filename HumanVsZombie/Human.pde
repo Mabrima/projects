@@ -9,8 +9,8 @@ class Human {
     float gColor;
 
     Human() {
+        size = random(17, 22);
         position = new PVector(random(size/2, width), random(size/2, height));
-        size = 20;
         velocity = random(10) - 5;
         direction = random(0, PI/2);
         rColor = random(170, 220);

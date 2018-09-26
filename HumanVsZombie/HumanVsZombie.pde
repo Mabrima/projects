@@ -1,4 +1,5 @@
 ArrayList<Human> people = new ArrayList<Human>();
+ArrayList<Human> zombies = new ArrayList<Human>();
 Human testHuman;
 Zombie testZombie;
 int amount = 99;
@@ -8,7 +9,7 @@ void setup() {
    for (int i = 0; i < amount; ++i) {
         people.add(new Human());
    }
-   people.add(new Zombie());
+   zombies.add(new Zombie());
 
    // testHuman = new Human();
    // testZombie = new Zombie();
@@ -29,17 +30,20 @@ void update() {
         people.get(i).update();
         people.get(i).draw();
     }
+    for(int i = 0; i < zombies.size(); i++){
+        zombies.get(i).update();
+        zombies.get(i).draw();
+    }
 }
 
 void zombieBite() {
     for (int i = 0; i < people.size(); i++) {
-        for (int j = i+1; j < people.size(); j++) {
-            if (collision(people.get(i).position, people.get(i).size, people.get(j).position, people.get(j).size)){
-                if (people.get(i) instanceof Zombie && !(people.get(j) instanceof Zombie)) {
-                    people.set(j, new Zombie(people.get(j).position, people.get(j).velocity, people.get(j).direction, people.get(j).size));
-                } else if (people.get(j) instanceof Zombie && !(people.get(i) instanceof Zombie)) {
-                    people.set(i, new Zombie(people.get(i).position, people.get(i).velocity, people.get(i).direction, people.get(i).size));
-                }
+        for (int j = 0; j < zombies.size(); j++) {
+            if (collision(people.get(i).position, people.get(i).size, zombies.get(j).position, zombies.get(j).size)){
+                zombies.add(new Zombie(people.get(i).position, people.get(i).velocity, people.get(i).direction, people.get(i).size));
+                people.remove(i);
+                return; 
+                //Will cause the program to "miss" if there are 2 people being bit by zombies at the same time, but those will most likely be "hit" the next frame instead.
             } 
         }
     }

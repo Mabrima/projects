@@ -32,7 +32,7 @@ public void setup() {
 
 public void draw() {
     background(255);
-    checkCollision();
+    zombieBite();
     update();
    // testHuman.update();
    // testHuman.draw();
@@ -47,7 +47,7 @@ public void update() {
     }
 }
 
-public void checkCollision() {
+public void zombieBite() {
     for (int i = 0; i < people.size(); i++) {
         for (int j = i+1; j < people.size(); j++) {
             if (collision(people.get(i).position, people.get(i).size, people.get(j).position, people.get(j).size)){
@@ -121,6 +121,9 @@ public class Zombie extends Human {
 
 	public Zombie () {
 		super.alive = false;
+		super.rColor = random(30, 70);
+        super.gColor = random(120, 170);
+        super.bColor = random(70, 120);
 	}
 
 	public Zombie (PVector position, float velocity, float direction, float size) {
@@ -130,12 +133,12 @@ public class Zombie extends Human {
 		super.size = size;
 		super.alive = false;
 		super.rColor = random(30, 70);
-        super.bColor = random(120, 170);
-        super.gColor = random(70, 120);
+        super.gColor = random(120, 170);
+        super.bColor = random(70, 120);
 	}
 
 	public void draw() {
-        fill(rColor, bColor, gColor);
+        fill(rColor, gColor, bColor);
         ellipse(position.x, position.y, size, size);
     }
 

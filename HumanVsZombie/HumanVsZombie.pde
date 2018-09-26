@@ -16,7 +16,7 @@ void setup() {
 
 void draw() {
     background(255);
-    checkCollision();
+    zombieBite();
     update();
    // testHuman.update();
    // testHuman.draw();
@@ -31,7 +31,7 @@ void update() {
     }
 }
 
-void checkCollision() {
+void zombieBite() {
     for (int i = 0; i < people.size(); i++) {
         for (int j = i+1; j < people.size(); j++) {
             if (collision(people.get(i).position, people.get(i).size, people.get(j).position, people.get(j).size)){

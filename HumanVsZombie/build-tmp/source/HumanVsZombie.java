@@ -18,6 +18,7 @@ ArrayList<Human> people = new ArrayList<Human>();
 ArrayList<Human> zombies = new ArrayList<Human>();
 Human testHuman;
 Zombie testZombie;
+float time;
 int amount = 99;
 
 public void setup() {
@@ -26,19 +27,27 @@ public void setup() {
         people.add(new Human());
    }
    zombies.add(new Zombie());
-
    // testHuman = new Human();
    // testZombie = new Zombie();
 }
 
 public void draw() {
-    background(255);
-    zombieBite();
-    update();
-   // testHuman.update();
-   // testHuman.draw();
-   // testZombie.update();
-   // testZombie.draw();
+    if (!gameOver()){
+        background(255);
+        zombieBite();
+        update();
+        time = millis()/1000;
+        // testHuman.update();
+        // testHuman.draw();
+        // testZombie.update();
+        // testZombie.draw();
+    } else {
+        textSize(50);
+        text("Game Over", width/3, height/2); 
+        fill(200, 50, 50);
+        text("All humans perished in " + (int) time + "s", 50, height/2 + 50); 
+        fill(200, 50, 50);
+    }
 }
 
 public void update() {
@@ -72,6 +81,10 @@ public boolean collision(PVector v1, float size1, PVector v2, float size2) {
     }  
     return dist(v1.x, v1.y, v2.x, v2.y) < maxDistance;
 }
+
+public boolean gameOver(){
+    return zombies.size() > amount;
+} 
 class Human {
     boolean alive = true;
     PVector position;
@@ -97,7 +110,7 @@ class Human {
         position = new PVector(x, y); 
         this.size = size;
         velocity = random(10) - 5;
-        direction = random(0, PI/2);
+        direction = random(0, PI*2);
     }
 
     public void update() {
@@ -145,6 +158,8 @@ public class Zombie extends Human {
 	public void draw() {
         fill(rColor, gColor, bColor);
         ellipse(position.x, position.y, size, size);
+        fill(0);
+        line(position.x, position.y, position.x + velocity/abs(velocity) * cos(direction)*size, position.y + velocity/abs(velocity) * sin(direction)*size);
     }
 
 }

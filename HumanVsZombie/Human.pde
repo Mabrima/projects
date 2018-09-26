@@ -23,7 +23,7 @@ class Human {
         position = new PVector(x, y); 
         this.size = size;
         velocity = random(10) - 5;
-        direction = random(0, PI/2);
+        direction = random(0, PI*2);
     }
 
     void update() {

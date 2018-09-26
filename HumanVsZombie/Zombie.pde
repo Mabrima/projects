@@ -22,6 +22,8 @@ public class Zombie extends Human {
 	void draw() {
         fill(rColor, gColor, bColor);
         ellipse(position.x, position.y, size, size);
+        fill(0);
+        line(position.x, position.y, position.x + velocity/abs(velocity) * cos(direction)*size, position.y + velocity/abs(velocity) * sin(direction)*size);
     }
 
 }

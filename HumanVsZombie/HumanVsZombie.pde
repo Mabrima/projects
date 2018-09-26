@@ -2,7 +2,8 @@ ArrayList<Human> people = new ArrayList<Human>();
 ArrayList<Human> zombies = new ArrayList<Human>();
 Human testHuman;
 Zombie testZombie;
-int amount = 99;
+float time;
+int amount = 99; //starting humans
 
 void setup() {
    size(800, 600);
@@ -10,19 +11,21 @@ void setup() {
         people.add(new Human());
    }
    zombies.add(new Zombie());
-
-   // testHuman = new Human();
-   // testZombie = new Zombie();
 }
 
 void draw() {
-    background(255);
-    zombieBite();
-    update();
-   // testHuman.update();
-   // testHuman.draw();
-   // testZombie.update();
-   // testZombie.draw();
+    if (!gameOver()){
+        background(255);
+        zombieBite();
+        update();
+        time = millis()/1000;
+    } else {
+        textSize(50);
+        text("Game Over", width/3, height/2); 
+        fill(200, 50, 50);
+        text("All humans perished in " + (int) time + "s", 50, height/2 + 50); 
+        fill(200, 50, 50);
+    }
 }
 
 void update() {
@@ -56,3 +59,7 @@ boolean collision(PVector v1, float size1, PVector v2, float size2) {
     }  
     return dist(v1.x, v1.y, v2.x, v2.y) < maxDistance;
 }
+
+boolean gameOver(){
+    return zombies.size() > amount;
+} 

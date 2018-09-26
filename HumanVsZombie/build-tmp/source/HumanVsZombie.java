@@ -19,7 +19,7 @@ ArrayList<Human> zombies = new ArrayList<Human>();
 Human testHuman;
 Zombie testZombie;
 float time;
-int amount = 99;
+int amount = 99; //starting humans
 
 public void setup() {
    
@@ -27,8 +27,6 @@ public void setup() {
         people.add(new Human());
    }
    zombies.add(new Zombie());
-   // testHuman = new Human();
-   // testZombie = new Zombie();
 }
 
 public void draw() {
@@ -37,10 +35,6 @@ public void draw() {
         zombieBite();
         update();
         time = millis()/1000;
-        // testHuman.update();
-        // testHuman.draw();
-        // testZombie.update();
-        // testZombie.draw();
     } else {
         textSize(50);
         text("Game Over", width/3, height/2); 

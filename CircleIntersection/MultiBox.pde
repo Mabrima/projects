@@ -62,6 +62,13 @@ public class MultiBox extends Shape {
       return onBot.intersectsBox(other);
     }
 
+    public boolean intersectsCircle(Circle circle) {
+        return !(pos.x - center.size.x/2 > circle.pos.x + circle.r ||
+            pos.x + center.size.x/2 < circle.pos.x - circle.r ||
+            pos.y - center.size.y/2 > circle.pos.y + circle.r ||
+            pos.y + center.size.y/2 < circle.pos.y - circle.r);
+    }
+
     private void move() {
         gravity();
         xVelocity = xAcceleration * getAxisRaw("Horizontal") + xVelocity * 0.9;

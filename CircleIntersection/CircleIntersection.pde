@@ -54,6 +54,13 @@ public void draw(){
     //println("onGround: " + player.onGround(box1));
     //println("inGround: " + player.inGround(box1));
     }
+    if (player.intersectsCircle(circ1)){
+        shapes.remove(circ1);
+    }
+    if (player.intersectsCircle(circ2)){
+        shapes.remove(circ2);
+    }
+
 
     player.moveOutOfGround(box1);
     player.moveOutOfGround(box2);

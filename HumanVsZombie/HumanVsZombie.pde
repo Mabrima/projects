@@ -14,7 +14,7 @@ void setup() {
 }
 
 void draw() {
-    if (!gameOver()){
+    if (!gameOver()) {
         background(255);
         zombieBite();
         update();
@@ -33,7 +33,7 @@ void update() {
         people.get(i).update();
         people.get(i).draw();
     }
-    for(int i = 0; i < zombies.size(); i++){
+    for(int i = 0; i < zombies.size(); i++) {
         zombies.get(i).update();
         zombies.get(i).draw();
     }
@@ -60,6 +60,6 @@ boolean collision(PVector v1, float size1, PVector v2, float size2) {
     return dist(v1.x, v1.y, v2.x, v2.y) < maxDistance;
 }
 
-boolean gameOver(){
+boolean gameOver() {
     return zombies.size() > amount;
 } 

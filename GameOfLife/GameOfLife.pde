@@ -57,7 +57,7 @@ void handleCell(GameObject cell) {
 	}
 }
 
-//checks all neighbors and works for edgeCases
+//checks all neighbors and works for edgeCases, counts itself
 void checkCellNeighbors(int x, int y) {
 	amountOfAliveNeighbors = 0;
 

@@ -28,6 +28,7 @@ void setup() {
 }
 
 void draw() {
+
 	background(200);
 	for (int x = 0; x < cells.length; ++x) {
 		for (int y = 0; y < cells[x].length; ++y) {
@@ -47,7 +48,7 @@ void draw() {
 }
 
 void handleCell(GameObject cell) {
-	if (cell.alive && (amountOfAliveNeighbors < 2 || amountOfAliveNeighbors > 3)) {
+	if (cell.alive && (amountOfAliveNeighbors < 3 || amountOfAliveNeighbors > 4)) {
 		cell.nextState = false;
 	} else if (!cell.alive && amountOfAliveNeighbors == 3) {
 		cell.nextState = true;
@@ -57,60 +58,26 @@ void handleCell(GameObject cell) {
 void checkCellNeighbors(int x, int y) {
 	amountOfAliveNeighbors = 0;
 
-	if (x == 0 && y == 0) {
-		amountOfAliveNeighbors += cells[x    ][y + 1].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y + 1].checkAlive();
-	} else if (x == numberOfColums - 1 && y == numberOfRows - 1) {
-		amountOfAliveNeighbors += cells[x - 1][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x - 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x    ][y - 1].checkAlive();
-	} else if (x == 0 && y == numberOfRows - 1) {
-		amountOfAliveNeighbors += cells[x    ][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y    ].checkAlive();
-	} else if (x == numberOfColums - 1 && y == 0) {
-		amountOfAliveNeighbors += cells[x - 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x - 1][y + 1].checkAlive();
-		amountOfAliveNeighbors += cells[x    ][y + 1].checkAlive();
-	} 
 
-	else if (x == 0) {
-		amountOfAliveNeighbors += cells[x    ][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x    ][y + 1].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y + 1].checkAlive();
-	} else if (x == numberOfColums - 1) {
-		amountOfAliveNeighbors += cells[x - 1][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x - 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x - 1][y + 1].checkAlive();
-		amountOfAliveNeighbors += cells[x    ][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x    ][y + 1].checkAlive();
-	} else if (y == 0) {
-		amountOfAliveNeighbors += cells[x - 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x - 1][y + 1].checkAlive();
-		amountOfAliveNeighbors += cells[x    ][y + 1].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y + 1].checkAlive();
-	} else if (y == numberOfRows - 1) {
-		amountOfAliveNeighbors += cells[x - 1][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x - 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x    ][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y    ].checkAlive();
-	} 
 
-	else {
-		amountOfAliveNeighbors += cells[x - 1][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x - 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x - 1][y + 1].checkAlive();
 
-		amountOfAliveNeighbors += cells[x    ][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x    ][y + 1].checkAlive();
+	int minX = -1;
+	int maxX = 2;
+	int minY = -1;
+	int maxY = 2;
 
-		amountOfAliveNeighbors += cells[x + 1][y - 1].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y    ].checkAlive();
-		amountOfAliveNeighbors += cells[x + 1][y + 1].checkAlive();
+	if (x == 0)
+		minX = 0;
+	if (x == numberOfColums-1)
+		maxX = 1;
+	if (y == 0)
+		minY = 0;
+	if (y == numberOfRows-1)
+		maxY = 1;
+
+	for (int xi = minX; xi < maxX; ++xi) {
+		for (int yi = minY; yi < maxY; ++yi) {
+			amountOfAliveNeighbors += cells[x + xi][y + yi].checkAlive();
+		}
 	}
 }

@@ -3,10 +3,12 @@
 void keyPressed() {
 
 	switch (keyCode) {
+		case 32: 
+			pause = !pause;
+		break;
 		case 107: 		//add
 			myFrameRate++;   
 			frameRate(myFrameRate);
-
 		break;   		//subract
 		case 109: 
 			myFrameRate--;
@@ -18,3 +20,9 @@ void keyPressed() {
 
 }
 
+void mousePressed() {
+	if (mouseButton == LEFT) {
+		cells[(int) (mouseX/10)][(int) (mouseY/10)].nextState = !cells[(int) (mouseX/10)][(int) (mouseY/10)].nextState;
+		println(mouseX + "x " + mouseY + "y");
+	}
+}

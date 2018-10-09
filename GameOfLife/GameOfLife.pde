@@ -5,6 +5,7 @@ int numberOfRows;
 int fillPercentage = 15;
 short amountOfAliveNeighbors;
 int myFrameRate;
+boolean pause = true;
 
 
 void setup() {
@@ -21,16 +22,15 @@ void setup() {
  	for (int x = 0; x < numberOfColums; ++x) {
  		for (int y = 0; y < numberOfRows; ++y) {
 			cells[x][y]  = new GameObject(x * cellSize, y * cellSize, cellSize);
-			if (random(100) < fillPercentage) {
-				cells[x][y].alive = true;
-				cells[x][y].nextState = true;
-			}
+			// if (random(100) < fillPercentage) {
+			// 	cells[x][y].alive = true;
+			// 	cells[x][y].nextState = true;
+			// }
  		}
 	}
-}
 
-void draw() {
 
+	//start
 	background(200);
 	for (int x = 0; x < cells.length; ++x) {
 		for (int y = 0; y < cells[x].length; ++y) {
@@ -45,8 +45,27 @@ void draw() {
 			cells[x][y].draw();
 		}
 	}
+}
 
+void draw() {
+	surface.setTitle(int(frameRate) + " fps");
 
+	if (!pause) {
+		background(200);
+		for (int x = 0; x < cells.length; ++x) {
+			for (int y = 0; y < cells[x].length; ++y) {
+				checkCellNeighbors(x, y);
+				handleCell(cells[x][y]);
+			}
+		}
+	}
+	for (int x = 0; x < cells.length; ++x) {
+		for (int y = 0; y < cells[x].length; ++y) {
+			cells[x][y].alive = cells[x][y].nextState;
+			cells[x][y].draw();
+		}
+	}
+	
 }
 
 void handleCell(GameObject cell) {

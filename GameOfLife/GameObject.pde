@@ -15,8 +15,16 @@ public class GameObject {
 
 	void draw() {
 		if (alive) {
-			ellipse(x, y, size, size);
+			fill(255);
+			stroke(0);
 		}
+		else {
+			fill(0);
+			stroke(50);
+		}
+
+		rect(x, y, size, size);
+
 	}
 
 	int checkAlive() {

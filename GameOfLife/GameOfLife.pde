@@ -62,21 +62,21 @@ void checkCellNeighbors(int x, int y) {
 	amountOfAliveNeighbors = 0;
 
 	int minX = -1;
-	int maxX = 2;
+	int maxX = 1;
 	int minY = -1;
-	int maxY = 2;
+	int maxY = 1;
 
 	if (x == 0)
 		minX = 0;
 	if (x == numberOfColums-1)
-		maxX = 1;
+		maxX = 0;
 	if (y == 0)
 		minY = 0;
 	if (y == numberOfRows-1)
-		maxY = 1;
+		maxY = 0;
 
-	for (int xi = minX; xi < maxX; ++xi) {
-		for (int yi = minY; yi < maxY; ++yi) {
+	for (int xi = minX; xi <= maxX; ++xi) {
+		for (int yi = minY; yi <= maxY; ++yi) {
 			if (!(xi == 0 && yi == 0)) 
 				amountOfAliveNeighbors += cells[x + xi][y + yi].checkAlive();
 		}

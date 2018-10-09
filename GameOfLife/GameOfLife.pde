@@ -4,12 +4,14 @@ int numberOfColums;
 int numberOfRows;
 int fillPercentage = 15;
 short amountOfAliveNeighbors;
+int myFrameRate;
 
 
 void setup() {
 	size(800, 800);
 	ellipseMode(LEFT);
-	frameRate(4);
+	myFrameRate = 4;
+	frameRate(myFrameRate);
 
 	numberOfColums = ((int) (width/cellSize));
 	numberOfRows = ((int) (height/cellSize));
@@ -48,18 +50,16 @@ void draw() {
 }
 
 void handleCell(GameObject cell) {
-	if (cell.alive && (amountOfAliveNeighbors < 3 || amountOfAliveNeighbors > 4)) {
+	if (cell.alive && (amountOfAliveNeighbors < 2 || amountOfAliveNeighbors > 3)) {
 		cell.nextState = false;
 	} else if (!cell.alive && amountOfAliveNeighbors == 3) {
 		cell.nextState = true;
 	}
 }
 
+//checks all neighbors and works for edgeCases, counts itself
 void checkCellNeighbors(int x, int y) {
 	amountOfAliveNeighbors = 0;
-
-
-
 
 	int minX = -1;
 	int maxX = 2;
@@ -77,7 +77,8 @@ void checkCellNeighbors(int x, int y) {
 
 	for (int xi = minX; xi < maxX; ++xi) {
 		for (int yi = minY; yi < maxY; ++yi) {
-			amountOfAliveNeighbors += cells[x + xi][y + yi].checkAlive();
+			if (!(xi == 0 && yi == 0)) 
+				amountOfAliveNeighbors += cells[x + xi][y + yi].checkAlive();
 		}
 	}
 }

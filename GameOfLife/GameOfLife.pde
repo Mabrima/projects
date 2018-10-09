@@ -68,11 +68,11 @@ void checkCellNeighbors(int x, int y) {
 
 	if (x == 0)
 		minX = 0;
-	if (!(x < numberOfColums))
+	if (x == numberOfColums-1)
 		maxX = 1;
 	if (y == 0)
 		minY = 0;
-	if (!(y < numberOfRows))
+	if (y == numberOfRows-1)
 		maxY = 1;
 
 	for (int xi = minX; xi < maxX; ++xi) {

@@ -20,6 +20,7 @@ void keyPressed() {
 				moveDown = true;
 			break;	
 		}
+		return;
 	}
 
 	switch (key) {
@@ -58,6 +59,7 @@ void keyReleased() {
 				moveDown = false;
 			break;	
 		}
+		return;
 	}
 
 	switch (key) {
@@ -92,9 +94,9 @@ float getAxisRaw(String axis) {
 			return -1;
 		if (moveRight) 
 			return 1;
-		
 	}
-	if (axis == "Vertical"){
+
+	if (axis == "Vertical") {
 		if (moveUp && moveDown)
 			return 0;
 		if (moveUp)

@@ -28,7 +28,7 @@ public void setup(){
     shapes = new ArrayList<Shape>();
 
     circ1 = new Circle(300, 200, 50);
-    circ2 = new Circle(325, 225, 50);
+    circ2 = new Circle(200, 225, 50);
 
     box1 = new Box(400, 600, 60, 40);
     box2 = new Box(430, 620, 60, 40);
@@ -70,6 +70,13 @@ public void draw(){
     //println("onGround: " + player.onGround(box1));
     //println("inGround: " + player.inGround(box1));
     }
+    if (player.intersectsCircle(circ1)){
+        shapes.remove(circ1);
+    }
+    if (player.intersectsCircle(circ2)){
+        shapes.remove(circ2);
+    }
+
 
     player.moveOutOfGround(box1);
     player.moveOutOfGround(box2);
@@ -197,6 +204,7 @@ public void keyPressed() {
 				moveDown = true;
 			break;	
 		}
+		return;
 	}
 
 	switch (key) {
@@ -235,6 +243,7 @@ public void keyReleased() {
 				moveDown = false;
 			break;	
 		}
+		return;
 	}
 
 	switch (key) {
@@ -269,9 +278,9 @@ public float getAxisRaw(String axis) {
 			return -1;
 		if (moveRight) 
 			return 1;
-		
 	}
-	if (axis == "Vertical"){
+
+	if (axis == "Vertical") {
 		if (moveUp && moveDown)
 			return 0;
 		if (moveUp)
@@ -403,6 +412,13 @@ public class MultiBox extends Shape {
 
     public boolean onGround(Box other) {
       return onBot.intersectsBox(other);
+    }
+
+    public boolean intersectsCircle(Circle circle) {
+        return !(pos.x - center.size.x/2 > circle.pos.x + circle.r ||
+            pos.x + center.size.x/2 < circle.pos.x - circle.r ||
+            pos.y - center.size.y/2 > circle.pos.y + circle.r ||
+            pos.y + center.size.y/2 < circle.pos.y - circle.r);
     }
 
     private void move() {

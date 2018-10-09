@@ -12,7 +12,7 @@ public void setup(){
     shapes = new ArrayList<Shape>();
 
     circ1 = new Circle(300, 200, 50);
-    circ2 = new Circle(325, 225, 50);
+    circ2 = new Circle(200, 225, 50);
 
     box1 = new Box(400, 600, 60, 40);
     box2 = new Box(430, 620, 60, 40);

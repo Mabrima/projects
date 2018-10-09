@@ -17,6 +17,7 @@ void draw() {
   	point(circleVector.x + cos((i + frame) * 0.01) * 100, circleVector.y + sin((i + frame) * 0.01) * 100);
   }
 
+
   point(circleVector.x , circleVector.y);
   move();
   frame++;

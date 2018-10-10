@@ -7,14 +7,16 @@ void keyPressed() {
 			pause = !pause;
 		break;
 		case 107: 		//add
-			myFrameRate++;   
-			frameRate(myFrameRate);
+			if (myFrameRate < 60){
+				myFrameRate++;  
+				frameRate(myFrameRate);
+			}
 		break;   		//subract
 		case 109: 
-			myFrameRate--;
-			if (myFrameRate <= 0)
-				myFrameRate = 1;
-			frameRate(myFrameRate);  
+			if (myFrameRate != 1){
+				myFrameRate--;	
+				frameRate(myFrameRate);  
+			}
 		break;
 	}
 
@@ -23,6 +25,5 @@ void keyPressed() {
 void mousePressed() {
 	if (mouseButton == LEFT) {
 		cells[(int) (mouseX/10)][(int) (mouseY/10)].nextState = !cells[(int) (mouseX/10)][(int) (mouseY/10)].nextState;
-		println(mouseX + "x " + mouseY + "y");
 	}
 }

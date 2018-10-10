@@ -59,6 +59,7 @@ void draw() {
 			}
 		}
 	}
+	
 	for (int x = 0; x < cells.length; ++x) {
 		for (int y = 0; y < cells[x].length; ++y) {
 			cells[x][y].alive = cells[x][y].nextState;

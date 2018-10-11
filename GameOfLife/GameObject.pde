@@ -6,7 +6,7 @@ public class GameObject {
 	boolean alive = false;
 	boolean nextAlive = false;
 	int timer = 0;
-	int time = 4;
+	int time = 3;
 	int birth = 0;
 
 
@@ -17,14 +17,12 @@ public class GameObject {
 	}
 
 	void update() {
-		alive = nextAlive;
 		if (alive) {
 			timer = time;
-			if (birth != 0)
-				birth--;
+			birth = 0;
 		}
 		else {
-			birth = 2;
+			birth = 1;
 			if (timer != 0)
 				timer--;
 		}
@@ -32,6 +30,7 @@ public class GameObject {
 
 
 	void draw() {
+		alive = nextAlive;
 		if (alive) {
 			fill(0, 100 + 100*birth, 0);
 			stroke(0);

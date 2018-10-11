@@ -4,9 +4,9 @@ public class GameObject {
 	float y;
 	float size;
 	boolean alive = false;
-	boolean nextState = false;
+	boolean nextAlive = false;
 	int timer = 0;
-	int time = 3;
+	int time = 4;
 	int birth = 0;
 
 
@@ -16,29 +16,36 @@ public class GameObject {
 		this.size = size;
 	}
 
+	void update() {
+		alive = nextAlive;
+		if (alive) {
+			timer = time;
+			if (birth != 0)
+				birth--;
+		}
+		else {
+			birth = 2;
+			if (timer != 0)
+				timer--;
+		}
+	}
+
 
 	void draw() {
 		if (alive) {
 			fill(0, 100 + 100*birth, 0);
 			stroke(0);
-			timer = time;
-			if (!pause)
-				birth = 0;
 		}
 		else {
 			fill(0 + timer*50, 0, 0);
 			stroke(50);
-			birth = 1;
-			if (timer != 0 && !pause)
-				timer--;
 		}
 
 		rect(x, y, size, size);
-
 	}
 
 	int checkAlive() {
-		if (alive) {
+		if (alive) {	
 			return 1;
 		}
 		else {

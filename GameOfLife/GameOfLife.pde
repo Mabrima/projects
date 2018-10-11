@@ -8,7 +8,6 @@ int myFrameRate;
 boolean pause = true;
 
 //hex
-Hexagon[][] hexagon;
 int rad = 5;
 int hexcountx, hexcounty;
 
@@ -21,8 +20,6 @@ void setup() {
 	//hexGridGame();
 
 	rectGridGame(); //initializing a normal rectangular game of life
-
-	//cellAliveInitialization(); //comment out if you want an empty starting board
 	
 }
 
@@ -36,9 +33,9 @@ void draw() {
 
 void handleCell(GameObject cell) {
 	if (cell.alive && (amountOfAliveNeighbors < 2 || amountOfAliveNeighbors > 3)) {
-		cell.nextState = false;
+		cell.nextAlive = false;
 	} else if (!cell.alive && amountOfAliveNeighbors == 3) {
-		cell.nextState = true;
+		cell.nextAlive = true;
 	}
 }
 
@@ -87,28 +84,29 @@ void rectGridGame() {
 void rectGridDraw() {
 	if (!pause) {
 		background(200);
-		for (int x = 0; x < cells.length; ++x) {
-			for (int y = 0; y < cells[x].length; ++y) {
+		for (int x = 0; x < numberOfColumns; ++x) {
+			for (int y = 0; y < numberOfRows; ++y) {
 				checkCellNeighbors(x, y);
 				handleCell(cells[x][y]);
 			}
 		}
 	}
 	
-	for (int x = 0; x < cells.length; ++x) {
-		for (int y = 0; y < cells[x].length; ++y) {
-			cells[x][y].alive = cells[x][y].nextState;
+	for (int x = 0; x < numberOfColumns; ++x) {
+		for (int y = 0; y < numberOfRows; ++y) {
+			if (!pause)
+				cells[x][y].update();
 			cells[x][y].draw();
 		}
 	}
 }
 
 void cellAliveInitialization() {
-	for (int x = 0; x < cells.length; ++x) {
-		for (int y = 0; y < cells[x].length; ++y) {
+	for (int x = 0; x < numberOfColumns; ++x) {
+		for (int y = 0; y < numberOfRows; ++y) {
 			if (random(100) < fillPercentage) { 
 				cells[x][y].alive = true;
-				cells[x][y].nextState = true; 
+				cells[x][y].nextAlive = true; 
 			}
 		}
 	}
@@ -118,14 +116,14 @@ void cellAliveInitialization() {
 void hexGridGame() {
 	hexcountx = (height/(rad));
     hexcounty = (width/(rad));
-    hexagon = new Hexagon [hexcountx][hexcounty];
+    cells = new Hexagon [hexcountx][hexcounty];
 
 	for (int i = 0; i < hexcountx; i++){
         for (int j = 0; j < hexcounty; j++){
           	if ((j % 2) == 0) {
-            	hexagon[i][j] = new Hexagon((3 * rad * i), (.866 * rad * j), rad);
+            	cells[i][j] = new Hexagon((3 * rad * i), (.866 * rad * j), rad);
           	} else {
-            	hexagon[i][j] = new Hexagon(3 * rad * (i + .5), .866 * rad * j, rad);
+            	cells[i][j] = new Hexagon(3 * rad * (i + .5), .866 * rad * j, rad);
           	}
         }
     }
@@ -138,7 +136,7 @@ void hexGridGame() {
       	for (int i = 0; i < hexcountx; i ++ ) {     
         	for (int j = 0; j < hexcounty; j ++ ) {
           	// Oscillate and display each object
-          	hexagon[i][j].draw();
+          	cells[i][j].draw();
         	}
       	}
     }

@@ -1,71 +1,36 @@
 GameObject cells[][];
 float cellSize = 10;
-int numberOfColums;
+int numberOfColumns;
 int numberOfRows;
 int fillPercentage = 15;
 short amountOfAliveNeighbors;
 int myFrameRate;
 boolean pause = true;
 
+//hex
+Hexagon[][] hexagon;
+int rad = 5;
+int hexcountx, hexcounty;
+
 
 void setup() {
 	size(800, 800);
-	ellipseMode(LEFT);
 	myFrameRate = 4;
 	frameRate(myFrameRate);
 
-	numberOfColums = ((int) (width/cellSize));
-	numberOfRows = ((int) (height/cellSize));
+	//hexGridGame();
 
-	cells = new GameObject[numberOfColums][numberOfRows];
+	rectGridGame(); //initializing a normal rectangular game of life
 
- 	for (int x = 0; x < numberOfColums; ++x) {
- 		for (int y = 0; y < numberOfRows; ++y) {
-			cells[x][y]  = new GameObject(x * cellSize, y * cellSize, cellSize);
-			// if (random(100) < fillPercentage) {
-			// 	cells[x][y].alive = true;
-			// 	cells[x][y].nextState = true;
-			// }
- 		}
-	}
-
-
-	//start
-	background(200);
-	for (int x = 0; x < cells.length; ++x) {
-		for (int y = 0; y < cells[x].length; ++y) {
-			checkCellNeighbors(x, y);
-			handleCell(cells[x][y]);
-		}
-	}
-
-	for (int x = 0; x < cells.length; ++x) {
-		for (int y = 0; y < cells[x].length; ++y) {
-			cells[x][y].alive = cells[x][y].nextState;
-			cells[x][y].draw();
-		}
-	}
+	//cellAliveInitialization(); //comment out if you want an empty starting board
+	
 }
 
 void draw() {
 	surface.setTitle(int(frameRate) + " fps");
 
-	if (!pause) {
-		background(200);
-		for (int x = 0; x < cells.length; ++x) {
-			for (int y = 0; y < cells[x].length; ++y) {
-				checkCellNeighbors(x, y);
-				handleCell(cells[x][y]);
-			}
-		}
-	}
-	
-	for (int x = 0; x < cells.length; ++x) {
-		for (int y = 0; y < cells[x].length; ++y) {
-			cells[x][y].alive = cells[x][y].nextState;
-			cells[x][y].draw();
-		}
-	}
+	//hexDraw();
+	rectGridDraw();
 	
 }
 
@@ -89,7 +54,7 @@ void checkCellNeighbors(int x, int y) {
 
 	if (x == 0)
 		minX = 0;
-	if (x == numberOfColums-1)
+	if (x == numberOfColumns-1)
 		maxX = 0;
 	if (y == 0)
 		minY = 0;
@@ -103,3 +68,79 @@ void checkCellNeighbors(int x, int y) {
 		}
 	}
 }
+
+void rectGridGame() {
+	ellipseMode(LEFT);
+
+	numberOfColumns = ((int) (width/cellSize));
+	numberOfRows = ((int) (height/cellSize));
+
+	cells = new GameObject[numberOfColumns][numberOfRows];
+
+ 	for (int x = 0; x < numberOfColumns; ++x) {
+ 		for (int y = 0; y < numberOfRows; ++y) {
+			cells[x][y]  = new GameObject(x * cellSize, y * cellSize, cellSize);
+ 		}
+	}
+}
+
+void rectGridDraw() {
+	if (!pause) {
+		background(200);
+		for (int x = 0; x < cells.length; ++x) {
+			for (int y = 0; y < cells[x].length; ++y) {
+				checkCellNeighbors(x, y);
+				handleCell(cells[x][y]);
+			}
+		}
+	}
+	
+	for (int x = 0; x < cells.length; ++x) {
+		for (int y = 0; y < cells[x].length; ++y) {
+			cells[x][y].alive = cells[x][y].nextState;
+			cells[x][y].draw();
+		}
+	}
+}
+
+void cellAliveInitialization() {
+	for (int x = 0; x < cells.length; ++x) {
+		for (int y = 0; y < cells[x].length; ++y) {
+			if (random(100) < fillPercentage) { 
+				cells[x][y].alive = true;
+				cells[x][y].nextState = true; 
+			}
+		}
+	}
+}
+
+
+void hexGridGame() {
+	hexcountx = (height/(rad));
+    hexcounty = (width/(rad));
+    hexagon = new Hexagon [hexcountx][hexcounty];
+
+	for (int i = 0; i < hexcountx; i++){
+        for (int j = 0; j < hexcounty; j++){
+          	if ((j % 2) == 0) {
+            	hexagon[i][j] = new Hexagon((3 * rad * i), (.866 * rad * j), rad);
+          	} else {
+            	hexagon[i][j] = new Hexagon(3 * rad * (i + .5), .866 * rad * j, rad);
+          	}
+        }
+    }
+}
+
+
+
+    
+    void hexDraw(){
+      	for (int i = 0; i < hexcountx; i ++ ) {     
+        	for (int j = 0; j < hexcounty; j ++ ) {
+          	// Oscillate and display each object
+          	hexagon[i][j].draw();
+        	}
+      	}
+    }
+
+    

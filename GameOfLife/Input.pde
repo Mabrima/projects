@@ -10,8 +10,8 @@ void keyPressed() {
 			pause = !pause;
 		break;
 		case 82:
-			for (int x = 0; x < numberOfColumns; ++x) {
-				for (int y = 0; y < numberOfRows; ++y) {
+			for (int x = 0; x < numberOfColumns; x++) {
+				for (int y = 0; y < numberOfRows; y++) {
 					cells[x][y].nextAlive = false;
 					cells[x][y].alive = false;
 				}
@@ -22,15 +22,13 @@ void keyPressed() {
 			
 		break;
 		case 107: 		//add
-			if (myFrameRate < 60){
-				myFrameRate++;  
-				frameRate(myFrameRate);
+			if (updateTime != 1){
+				updateTime--;	
 			}
 		break;   		//subract
 		case 109: 
-			if (myFrameRate != 1){
-				myFrameRate--;	
-				frameRate(myFrameRate);  
+			if (updateTime < 60){
+				updateTime++;  
 			}
 		break;
 	}
@@ -45,20 +43,22 @@ void keyReleased() {
 }
 
 void mousePressed() {
-	int x = (int) (mouseX/10);
-	int y = (int) (mouseY/10);
+	if (!hexGameInitialized) {
+		int x = (int) (mouseX/10);
+		int y = (int) (mouseY/10);
 
-	if (shiftDown && mouseButton == LEFT) {
-		sideOval(x, y);
-	}
-	else if (mouseButton == LEFT) {
-		cells[x][y].nextAlive = !cells[x][y].nextAlive;
-	}
-	else if (mouseButton == RIGHT) {
-		explosion(x, y);
-	}
-	else if (mouseButton == CENTER) {
-		acorn(x, y);
+		if (shiftDown && mouseButton == LEFT) {
+			sideOval(x, y);
+		}
+		else if (mouseButton == LEFT) {
+			cells[x][y].nextAlive = !cells[x][y].nextAlive;
+		}
+		else if (mouseButton == RIGHT) {
+			explosion(x, y);
+		}
+		else if (mouseButton == CENTER) {
+			acorn(x, y);
+		}
 	}
 }
 

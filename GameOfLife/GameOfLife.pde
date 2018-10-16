@@ -4,34 +4,33 @@ int numberOfColumns;
 int numberOfRows;
 int fillPercentage = 15;
 short amountOfAliveNeighbors;
-int myFrameRate;
+int updateTimer = 20;
+int updateTime = 20;
 boolean pause = true;
-
-//hex
-int rad = 5;
-int hexcountx, hexcounty;
-
+boolean hexGameInitialized = false;
 
 void setup() {
 	size(800, 800);
-	myFrameRate = 4;
-	frameRate(myFrameRate);
 
-	//hexGridGame();
-
-	rectGridGame(); //initializing a normal rectangular game of life
-	
+	//only one of these may be used at a time
+	// hexGridGame(); 
+	rectGridGame(); 
 }
 
 void draw() {
 	surface.setTitle(int(frameRate) + " fps");
 
-	//hexDraw();
+	//TODO manu choice for normal or hex
+	//only use the same that you use in setup
+	// hexDraw();
 	rectGridDraw();
-	
+
+	if (updateTimer == 0)
+		updateTimer = updateTime;
+	updateTimer--;
 }
 
-void handleCell(GameObject cell) {
+void handleCellRect(GameObject cell) {
 	if (cell.alive && (amountOfAliveNeighbors < 2 || amountOfAliveNeighbors > 3)) {
 		cell.nextAlive = false;
 	} else if (!cell.alive && amountOfAliveNeighbors == 3) {
@@ -39,9 +38,7 @@ void handleCell(GameObject cell) {
 	}
 }
 
-//checks all neighbors and works for edgeCases
-//in values are the x and y of the cell in question
-void checkCellNeighbors(int x, int y) {
+void checkCellNeighborsRect(int x, int y) {
 	amountOfAliveNeighbors = 0;
 
 	int minX = -1;
@@ -58,8 +55,8 @@ void checkCellNeighbors(int x, int y) {
 	if (y == numberOfRows-1)
 		maxY = 0;
 
-	for (int xi = minX; xi <= maxX; ++xi) {
-		for (int yi = minY; yi <= maxY; ++yi) {
+	for (int xi = minX; xi <= maxX; xi++) {
+		for (int yi = minY; yi <= maxY; yi++) {
 			if (!(xi == 0 && yi == 0)) 
 				amountOfAliveNeighbors += cells[x + xi][y + yi].checkAlive();
 		}
@@ -74,27 +71,27 @@ void rectGridGame() {
 
 	cells = new GameObject[numberOfColumns][numberOfRows];
 
- 	for (int x = 0; x < numberOfColumns; ++x) {
- 		for (int y = 0; y < numberOfRows; ++y) {
+ 	for (int x = 0; x < numberOfColumns; x++) {
+ 		for (int y = 0; y < numberOfRows; y++) {
 			cells[x][y]  = new GameObject(x * cellSize, y * cellSize, cellSize);
  		}
 	}
 }
 
 void rectGridDraw() {
-	if (!pause) {
+	if (!pause && updateTimer == 0) {
 		background(200);
-		for (int x = 0; x < numberOfColumns; ++x) {
-			for (int y = 0; y < numberOfRows; ++y) {
-				checkCellNeighbors(x, y);
-				handleCell(cells[x][y]);
+		for (int x = 0; x < numberOfColumns; x++) {
+			for (int y = 0; y < numberOfRows; y++) {
+				checkCellNeighborsRect(x, y);
+				handleCellRect(cells[x][y]);
 			}
 		}
 	}
 	
-	for (int x = 0; x < numberOfColumns; ++x) {
-		for (int y = 0; y < numberOfRows; ++y) {
-			if (!pause)
+	for (int x = 0; x < numberOfColumns; x++) {
+		for (int y = 0; y < numberOfRows; y++) {
+			if (!pause && updateTimer == 0)
 				cells[x][y].update();
 			cells[x][y].draw();
 		}
@@ -102,8 +99,8 @@ void rectGridDraw() {
 }
 
 void cellAliveInitialization() {
-	for (int x = 0; x < numberOfColumns; ++x) {
-		for (int y = 0; y < numberOfRows; ++y) {
+	for (int x = 1; x < numberOfColumns; x++) {
+		for (int y = 2; y < numberOfRows; y++) {
 			if (random(100) < fillPercentage) { 
 				cells[x][y].alive = true;
 				cells[x][y].nextAlive = true; 
@@ -112,33 +109,73 @@ void cellAliveInitialization() {
 	}
 }
 
+//below is all the code for hexbased game of life
 
 void hexGridGame() {
-	hexcountx = (height/(rad));
-    hexcounty = (width/(rad));
-    cells = new Hexagon [hexcountx][hexcounty];
+	hexGameInitialized = true;
 
-	for (int i = 0; i < hexcountx; i++){
-        for (int j = 0; j < hexcounty; j++){
-          	if ((j % 2) == 0) {
-            	cells[i][j] = new Hexagon((3 * rad * i), (.866 * rad * j), rad);
+	//tons of messy code to make an outer layer so that it doesn't need to handle edge cases
+	numberOfColumns = (int) ceil((height/(cellSize*3)));
+    numberOfRows = (int) ceil((width/(cellSize * 0.866))+2);
+
+    cells = new Hexagon [numberOfColumns+2][numberOfRows+4];
+
+	for (int x = 0; x < numberOfColumns+2; x++){
+        for (int y = 0; y < numberOfRows+4; y++){ 
+          	if ((y % 2) == 0) {
+            	cells[x][y] = new Hexagon(3 * cellSize * (x-1), .866 * cellSize * (y-2), cellSize);
           	} else {
-            	cells[i][j] = new Hexagon(3 * rad * (i + .5), .866 * rad * j, rad);
+            	cells[x][y] = new Hexagon(3 * cellSize * (x-1 + .5), .866 * cellSize * (y-2), cellSize);
           	}
         }
     }
+    cellAliveInitialization();
+}
+    
+void hexDraw() {
+	if (!pause && updateTimer == 0) {
+		for (int x = 1; x <= numberOfColumns; x++) {
+			for (int y = 2; y <= numberOfRows; y++) {
+				checkCellNeighborsHex(x, y);
+				handleCellHex(cells[x][y]);
+			}
+		}
+	}
+
+  	for (int x = 1; x <= numberOfColumns; x++) {     
+    	for (int y = 2; y <= numberOfRows; y++) {
+    		if (!pause && updateTimer == 0)
+				cells[x][y].update();
+			cells[x][y].draw();
+    	}
+  	}
 }
 
+void checkCellNeighborsHex(int x, int y) { //TODO
+	amountOfAliveNeighbors = 0;
 
+	if ((y % 2) == 0) {
+		amountOfAliveNeighbors += cells[x][y-1].checkAlive();
+		amountOfAliveNeighbors += cells[x][y+1].checkAlive();
+		amountOfAliveNeighbors += cells[x-1][y-1].checkAlive();
+		amountOfAliveNeighbors += cells[x-1][y+1].checkAlive();
+		amountOfAliveNeighbors += cells[x][y-2].checkAlive();
+		amountOfAliveNeighbors += cells[x][y+2].checkAlive();
+	}
+	else {
+		amountOfAliveNeighbors += cells[x][y-1].checkAlive();
+		amountOfAliveNeighbors += cells[x][y+1].checkAlive();
+		amountOfAliveNeighbors += cells[x+1][y-1].checkAlive();
+		amountOfAliveNeighbors += cells[x+1][y+1].checkAlive();
+		amountOfAliveNeighbors += cells[x][y-2].checkAlive();
+		amountOfAliveNeighbors += cells[x][y+2].checkAlive();
+	}
+}
 
-    
-    void hexDraw(){
-      	for (int i = 0; i < hexcountx; i ++ ) {     
-        	for (int j = 0; j < hexcounty; j ++ ) {
-          	// Oscillate and display each object
-          	cells[i][j].draw();
-        	}
-      	}
-    }
-
-    
+void handleCellHex(GameObject cell) {
+	if (cell.alive && (amountOfAliveNeighbors != 2)) {
+		cell.nextAlive = false;
+	} else if (!cell.alive && amountOfAliveNeighbors == 2) {
+		cell.nextAlive = true;
+	}
+}

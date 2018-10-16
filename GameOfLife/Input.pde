@@ -43,7 +43,7 @@ void keyReleased() {
 }
 
 void mousePressed() {
-	if (!hexGameInitialized) {
+	if (!hexGameInitialize && gameState == 2) {
 		int x = (int) (mouseX/10);
 		int y = (int) (mouseY/10);
 
@@ -59,6 +59,17 @@ void mousePressed() {
 		else if (mouseButton == CENTER) {
 			acorn(x, y);
 		}
+	}
+}
+
+void mouseClicked() {
+
+	if ((mouseX < rectChoice[0]+rectChoice[2] && mouseX > rectChoice[0]) && (mouseY < rectChoice[1]+rectChoice[2]/2 && mouseY > rectChoice[1])) {
+		gameState = 1;
+	}
+	else if ((mouseX < hexChoice[0]+hexChoice[2] && mouseX > hexChoice[0]) && (mouseY < hexChoice[1]+hexChoice[2] && mouseY > hexChoice[1])) {
+		gameState = 1;
+		hexGameInitialize = true;
 	}
 }
 

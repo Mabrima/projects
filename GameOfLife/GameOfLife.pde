@@ -7,23 +7,54 @@ short amountOfAliveNeighbors;
 int updateTimer = 20;
 int updateTime = 20;
 boolean pause = true;
-boolean hexGameInitialized = false;
+boolean hexGameInitialize = false;
+int gameState = 0;
+int width = 800;
+int height = 800;
+int hexChoice[] = new int[3]; 
+int rectChoice[] = new int[3];
 
 void setup() {
 	size(800, 800);
+	hexChoice[0] = width/2 -50; hexChoice[1] = height/3 -50; hexChoice[2] = 100;
+	rectChoice[0] = width/2 -50; rectChoice[1] = height*2/3 -50; rectChoice[2] = 100; 
+}
 
-	//only one of these may be used at a time
-	// hexGridGame(); 
-	rectGridGame(); 
+void startChoice() {
+	stroke(0);
+	background(255);
+	fill(255);
+	rect(hexChoice[0], hexChoice[1], hexChoice[2], hexChoice[2]);
+	fill(0);
+	text("HexGame", hexChoice[0], hexChoice[1]);
+	fill(255);
+	rect(rectChoice[0], rectChoice[1], rectChoice[2], rectChoice[2]);
+	fill(0);
+	text("RectGame", rectChoice[0], rectChoice[1]);
+
+	if (hexGameInitialize && gameState == 1) {
+		hexGridGameInitialize(); 
+		gameState = 2;
+	}
+	else if (gameState == 1) {
+		rectGridGameInitialize();
+		gameState = 2;
+	}
 }
 
 void draw() {
 	surface.setTitle(int(frameRate) + " fps");
 
-	//TODO manu choice for normal or hex
-	//only use the same that you use in setup
-	// hexDraw();
-	rectGridDraw();
+	if(gameState == 0 || gameState == 1) {
+		startChoice();
+	}
+
+	if (hexGameInitialize && gameState == 2) {
+		hexDraw();
+	}
+	else if (gameState == 2) {
+		rectGridDraw();
+	}
 
 	if (updateTimer == 0)
 		updateTimer = updateTime;
@@ -63,9 +94,7 @@ void checkCellNeighborsRect(int x, int y) {
 	}
 }
 
-void rectGridGame() {
-	ellipseMode(LEFT);
-
+void rectGridGameInitialize() {
 	numberOfColumns = ((int) (width/cellSize));
 	numberOfRows = ((int) (height/cellSize));
 
@@ -111,8 +140,8 @@ void cellAliveInitialization() {
 
 //below is all the code for hexbased game of life
 
-void hexGridGame() {
-	hexGameInitialized = true;
+void hexGridGameInitialize() {
+	hexGameInitialize = true;
 
 	//tons of messy code to make an outer layer so that it doesn't need to handle edge cases
 	numberOfColumns = (int) ceil((height/(cellSize*3)));
@@ -151,7 +180,7 @@ void hexDraw() {
   	}
 }
 
-void checkCellNeighborsHex(int x, int y) { //TODO
+void checkCellNeighborsHex(int x, int y) { 
 	amountOfAliveNeighbors = 0;
 
 	if ((y % 2) == 0) {

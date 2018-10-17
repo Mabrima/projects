@@ -1,5 +1,4 @@
 public class GameObject {
-
 	float x;
 	float y;
 	float size;
@@ -9,11 +8,19 @@ public class GameObject {
 	int lifeTime = 3;
 	int birth = 0;
 
-
 	public GameObject (float x, float y, float size) {
 		this.x = x;
 		this.y = y;
 		this.size = size;
+	}
+	
+	int checkAlive() {
+		if (alive) {	
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 
 	void update() {
@@ -28,7 +35,6 @@ public class GameObject {
 		}
 	}
 
-
 	void draw() {
 		alive = nextAlive;
 		if (alive) {
@@ -41,14 +47,5 @@ public class GameObject {
 		}
 
 		rect(x, y, size, size);
-	}
-
-	int checkAlive() {
-		if (alive) {	
-			return 1;
-		}
-		else {
-			return 0;
-		}
 	}
 }

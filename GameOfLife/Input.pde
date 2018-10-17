@@ -1,7 +1,20 @@
 boolean shiftDown = false;
 
-void keyPressed() {
+void mouseClicked() {
+	if (gameState != 2) {
+		boolean withinChooseRectGrid = (mouseX < rectChoice[0] + rectChoice[2] && mouseX > rectChoice[0]) && (mouseY < rectChoice[1] + rectChoice[2] && mouseY > rectChoice[1]);
+		boolean withinChooseHexGrid = (mouseX < hexChoice[0] + hexChoice[2] && mouseX > hexChoice[0]) && (mouseY < hexChoice[1] + hexChoice[2] && mouseY > hexChoice[1]);
+		if (withinChooseRectGrid) {
+			gameState = 1;
+		}
+		else if (withinChooseHexGrid) {
+			gameState = 1;
+			hexGameInitialize = true;
+		}
+	}	
+}
 
+void keyPressed() {
 	switch (keyCode) {
 		case 16: 
 			shiftDown = true;
@@ -19,10 +32,9 @@ void keyPressed() {
 			if (shiftDown) {
 				cellAliveInitialization();
 			}
-			
 		break;
 		case 107: 		//add
-			if (updateTime != 1){
+			if (updateTime != 0){
 				updateTime--;	
 			}
 		break;   		//subract
@@ -60,18 +72,6 @@ void mousePressed() {
 			acorn(x, y);
 		}
 	}
-}
-
-void mouseClicked() {
-	if (gameState != 2) {
-		if ((mouseX < rectChoice[0]+rectChoice[2] && mouseX > rectChoice[0]) && (mouseY < rectChoice[1]+rectChoice[2]/2 && mouseY > rectChoice[1])) {
-			gameState = 1;
-		}
-		else if ((mouseX < hexChoice[0]+hexChoice[2] && mouseX > hexChoice[0]) && (mouseY < hexChoice[1]+hexChoice[2] && mouseY > hexChoice[1])) {
-			gameState = 1;
-			hexGameInitialize = true;
-		}
-	}	
 }
 
 void sideOval(int x, int y) {

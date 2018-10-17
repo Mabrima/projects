@@ -2,10 +2,10 @@ GameObject cells[][];
 float cellSize = 10;
 int numberOfColumns;
 int numberOfRows;
-int fillPercentage = 15;
+short fillPercentage = 15;
 short amountOfAliveNeighbors;
-int updateTimer = 20;
-int updateTime = 20;
+short updateTimer = 20;
+short updateTime = 20;
 boolean pause = true;
 boolean hexGameInitialize = false;
 int gameState = 0;
@@ -18,28 +18,6 @@ void setup() {
 	size(800, 800);
 	hexChoice[0] = width/2 -50; hexChoice[1] = height/3 -50; hexChoice[2] = 100;
 	rectChoice[0] = width/2 -50; rectChoice[1] = height*2/3 -50; rectChoice[2] = 100; 
-}
-
-void startChoice() {
-	stroke(0);
-	background(255);
-	fill(255);
-	rect(hexChoice[0], hexChoice[1], hexChoice[2], hexChoice[2]);
-	fill(0);
-	text("HexGame", hexChoice[0], hexChoice[1]);
-	fill(255);
-	rect(rectChoice[0], rectChoice[1], rectChoice[2], rectChoice[2]);
-	fill(0);
-	text("RectGame", rectChoice[0], rectChoice[1]);
-
-	if (hexGameInitialize && gameState == 1) {
-		hexGridGameInitialize(); 
-		gameState = 2;
-	}
-	else if (gameState == 1) {
-		rectGridGameInitialize();
-		gameState = 2;
-	}
 }
 
 void draw() {
@@ -56,42 +34,33 @@ void draw() {
 		rectGridDraw();
 	}
 
-	if (updateTimer == 0)
-		updateTimer = updateTime;
-	updateTimer--;
+	handleTimer();
 }
 
-void handleCellRect(GameObject cell) {
-	if (cell.alive && (amountOfAliveNeighbors < 2 || amountOfAliveNeighbors > 3)) {
-		cell.nextAlive = false;
-	} else if (!cell.alive && amountOfAliveNeighbors == 3) {
-		cell.nextAlive = true;
+void startChoice() {
+	makeChoiceSquares();
+
+	if (hexGameInitialize && gameState == 1) {
+		hexGridGameInitialize(); 
+		gameState = 2;
+	}
+	else if (gameState == 1) {
+		rectGridGameInitialize();
+		gameState = 2;
 	}
 }
 
-void checkCellNeighborsRect(int x, int y) {
-	amountOfAliveNeighbors = 0;
-
-	int minX = -1;
-	int maxX = 1;
-	int minY = -1;
-	int maxY = 1;
-
-	if (x == 0)
-		minX = 0;
-	if (x == numberOfColumns-1)
-		maxX = 0;
-	if (y == 0)
-		minY = 0;
-	if (y == numberOfRows-1)
-		maxY = 0;
-
-	for (int xi = minX; xi <= maxX; xi++) {
-		for (int yi = minY; yi <= maxY; yi++) {
-			if (!(xi == 0 && yi == 0)) 
-				amountOfAliveNeighbors += cells[x + xi][y + yi].checkAlive();
-		}
-	}
+void makeChoiceSquares() {
+	stroke(0);
+	background(255);
+	fill(255);
+	rect(hexChoice[0], hexChoice[1], hexChoice[2], hexChoice[2]);
+	fill(0);
+	text("HexGame", hexChoice[0], hexChoice[1]);
+	fill(255);
+	rect(rectChoice[0], rectChoice[1], rectChoice[2], rectChoice[2]);
+	fill(0);
+	text("RectGame", rectChoice[0], rectChoice[1]);
 }
 
 void rectGridGameInitialize() {
@@ -127,6 +96,45 @@ void rectGridDraw() {
 	}
 }
 
+void checkCellNeighborsRect(int x, int y) {
+	amountOfAliveNeighbors = 0;
+
+	int minX = -1;
+	int maxX = 1;
+	int minY = -1;
+	int maxY = 1;
+
+	if (x == 0)
+		minX = 0;
+	if (x == numberOfColumns-1)
+		maxX = 0;
+	if (y == 0)
+		minY = 0;
+	if (y == numberOfRows-1)
+		maxY = 0;
+
+	for (int xi = minX; xi <= maxX; xi++) {
+		for (int yi = minY; yi <= maxY; yi++) {
+			if (!(xi == 0 && yi == 0)) 
+				amountOfAliveNeighbors += cells[x + xi][y + yi].checkAlive();
+		}
+	}
+}
+
+void handleCellRect(GameObject cell) {
+	if (cell.alive && (amountOfAliveNeighbors < 2 || amountOfAliveNeighbors > 3)) {
+		cell.nextAlive = false;
+	} else if (!cell.alive && amountOfAliveNeighbors == 3) {
+		cell.nextAlive = true;
+	}
+}
+
+void handleTimer() {
+	updateTimer--;
+	if (updateTimer == 0)
+		updateTimer = updateTime;
+}
+
 void cellAliveInitialization() {
 	for (int x = 1; x < numberOfColumns; x++) {
 		for (int y = 2; y < numberOfRows; y++) {
@@ -138,11 +146,9 @@ void cellAliveInitialization() {
 	}
 }
 
-//below is all the code for hexbased game of life
+//below is all the code for hexbased game of life //
 
 void hexGridGameInitialize() {
-	hexGameInitialize = true;
-
 	//tons of messy code to make an outer layer so that it doesn't need to handle edge cases
 	numberOfColumns = (int) ceil((height/(cellSize*3)));
     numberOfRows = (int) ceil((width/(cellSize * 0.866))+2);
@@ -158,6 +164,7 @@ void hexGridGameInitialize() {
           	}
         }
     }
+    
     cellAliveInitialization();
 }
     

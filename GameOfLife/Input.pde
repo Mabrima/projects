@@ -63,14 +63,15 @@ void mousePressed() {
 }
 
 void mouseClicked() {
-
-	if ((mouseX < rectChoice[0]+rectChoice[2] && mouseX > rectChoice[0]) && (mouseY < rectChoice[1]+rectChoice[2]/2 && mouseY > rectChoice[1])) {
-		gameState = 1;
-	}
-	else if ((mouseX < hexChoice[0]+hexChoice[2] && mouseX > hexChoice[0]) && (mouseY < hexChoice[1]+hexChoice[2] && mouseY > hexChoice[1])) {
-		gameState = 1;
-		hexGameInitialize = true;
-	}
+	if (gameState != 2) {
+		if ((mouseX < rectChoice[0]+rectChoice[2] && mouseX > rectChoice[0]) && (mouseY < rectChoice[1]+rectChoice[2]/2 && mouseY > rectChoice[1])) {
+			gameState = 1;
+		}
+		else if ((mouseX < hexChoice[0]+hexChoice[2] && mouseX > hexChoice[0]) && (mouseY < hexChoice[1]+hexChoice[2] && mouseY > hexChoice[1])) {
+			gameState = 1;
+			hexGameInitialize = true;
+		}
+	}	
 }
 
 void sideOval(int x, int y) {

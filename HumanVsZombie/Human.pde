@@ -30,6 +30,10 @@ class Human {
         position.x += velocity * cos(direction);
         position.y += velocity * sin(direction);
 
+        borderCheck();
+    }
+
+    void borderCheck() {
         if (position.x > width - size/2){
             position.x = 0 + size/2;
         } else if (position.x < 0 + size/2) {
@@ -45,5 +49,4 @@ class Human {
         fill(rColor, gColor, bColor);
         ellipse(position.x, position.y, size, size);
     }
-
 }

@@ -6,26 +6,51 @@ float time;
 int amount = 99; //starting humans
 
 void setup() {
-   size(800, 600);
-   for (int i = 0; i < amount; ++i) {
+    size(800, 600);
+    initializeStartArrays();
+}
+
+void initializeStartArrays() {
+    for (int i = 0; i < amount; ++i) {
         people.add(new Human());
-   }
-   zombies.add(new Zombie());
+    }
+    zombies.add(new Zombie());
 }
 
 void draw() {
     if (!gameOver()) {
-        background(255);
-        zombieBite();
-        update();
-        time = millis()/1000;
+        gamePlay();
     } else {
-        textSize(50);
-        text("Game Over", width/3, height/2); 
-        fill(200, 50, 50);
-        text("All humans perished in " + (int) time + "s", 50, height/2 + 50); 
-        fill(200, 50, 50);
+        gameOverScreen();
     }
+}
+
+boolean gameOver() {
+    return zombies.size() > amount;
+} 
+
+void gamePlay() {
+    background(255);
+    zombieBite();
+    update();
+    time = millis()/1000;
+}
+
+void zombieBite() {
+    for (int i = 0; i < people.size(); i++) {
+        for (int j = 0; j < zombies.size(); j++) {
+            if (collision(people.get(i).position, people.get(i).size, zombies.get(j).position, zombies.get(j).size)){
+                replaceHumanWithZombie(i);
+                return; 
+                //Will cause the program to "miss" if there are 2 people being bit by zombies at the same time, but those will most likely be "hit" the next frame instead.
+            } 
+        }
+    }
+}
+
+void replaceHumanWithZombie(int i) {
+    zombies.add(new Zombie(people.get(i).position, people.get(i).velocity, people.get(i).direction, people.get(i).size));
+    people.remove(i);
 }
 
 void update() {
@@ -39,17 +64,12 @@ void update() {
     }
 }
 
-void zombieBite() {
-    for (int i = 0; i < people.size(); i++) {
-        for (int j = 0; j < zombies.size(); j++) {
-            if (collision(people.get(i).position, people.get(i).size, zombies.get(j).position, zombies.get(j).size)){
-                zombies.add(new Zombie(people.get(i).position, people.get(i).velocity, people.get(i).direction, people.get(i).size));
-                people.remove(i);
-                return; 
-                //Will cause the program to "miss" if there are 2 people being bit by zombies at the same time, but those will most likely be "hit" the next frame instead.
-            } 
-        }
-    }
+void gameOverScreen() {
+    textSize(50);
+    text("Game Over", width/3, height/2); 
+    fill(200, 50, 50);
+    text("All humans perished in " + (int) time + "s", 50, height/2 + 50); 
+    fill(200, 50, 50);
 }
 
 boolean collision(PVector v1, float size1, PVector v2, float size2) {
@@ -59,7 +79,3 @@ boolean collision(PVector v1, float size1, PVector v2, float size2) {
     }  
     return dist(v1.x, v1.y, v2.x, v2.y) < maxDistance;
 }
-
-boolean gameOver() {
-    return zombies.size() > amount;
-} 

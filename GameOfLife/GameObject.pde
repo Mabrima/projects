@@ -4,6 +4,7 @@ public class GameObject {
 	float size;
 	boolean alive = false;
 	boolean nextAlive = false;
+	char hasBeenAlive = 0;
 	int lifeTimer = 0;
 	int lifeTime = 3;
 	int birth = 0;
@@ -25,6 +26,7 @@ public class GameObject {
 
 	void update() {
 		if (alive) {
+			hasBeenAlive = 1;
 			lifeTimer = lifeTime;
 			birth = 0;
 		}
@@ -42,7 +44,7 @@ public class GameObject {
 			stroke(0);
 		}
 		else {
-			fill(0 + lifeTimer*50, 0, 0);
+			fill(0 + lifeTimer*50, 0, 0 + 50*hasBeenAlive);
 			stroke(50);
 		}
 

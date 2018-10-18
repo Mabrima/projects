@@ -130,9 +130,9 @@ void handleCellRect(GameObject cell) {
 }
 
 void handleTimer() {
-	updateTimer--;
 	if (updateTimer == 0)
 		updateTimer = updateTime;
+	updateTimer--;
 }
 
 void cellAliveInitialization() {

@@ -34,7 +34,7 @@ void keyPressed() {
 			}
 		break;
 		case 107: 		//add
-			if (updateTime != 0){
+			if (updateTime != 1){
 				updateTime--;	
 			}
 		break;   		//subract

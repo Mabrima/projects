@@ -12,7 +12,7 @@
     		stroke(0);
     	}
     	else {
-    		fill(0 + 50*lifeTimer, 0, 0);
+    		fill(0 + 50*lifeTimer, 0, 0 + 50*hasBeenAlive);
     		stroke(50);
     	}
 

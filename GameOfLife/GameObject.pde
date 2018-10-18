@@ -38,7 +38,14 @@ public class GameObject {
 	}
 
 	void draw() {
-		alive = nextAlive;
+		alive = nextAlive; //ugly fix for dealing with updating while paused
+		
+		updateColor();
+
+		rect(x, y, size, size);
+	}
+
+	void updateColor() {
 		if (alive) {
 			fill(0, 100 + 100*birth, 0);
 			stroke(0);
@@ -47,7 +54,5 @@ public class GameObject {
 			fill(0 + lifeTimer*50, 0, 0 + 50*hasBeenAlive);
 			stroke(50);
 		}
-
-		rect(x, y, size, size);
 	}
 }

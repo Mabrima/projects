@@ -6,15 +6,9 @@
     }
 
     void draw() {
-    	alive = nextAlive;
-    	if (alive) {
-    		fill(0, 100 + 100*birth, 0);
-    		stroke(0);
-    	}
-    	else {
-    		fill(0 + 50*lifeTimer, 0, 0 + 50*hasBeenAlive);
-    		stroke(50);
-    	}
+    	alive = nextAlive; //fix, see GameObject draw
+
+    	updateColor();
 
        	drawHexagon();
     }

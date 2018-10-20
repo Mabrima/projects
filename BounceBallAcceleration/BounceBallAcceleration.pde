@@ -1,52 +1,51 @@
 int frame = 0;
-PVector circleVector;
-PVector weirdBall = new PVector(0, 0);
-PVector v = new PVector(0, 0);
+PVector circlePositionVector;
+PVector velocity = new PVector(0, 0);
 int sizeOfCircle = 50;
 float xSpeed = 0;
 float ySpeed = 100;
-float a = 100;
-float tpf;
+float accelleration = 100;
+float frictionSpeedDecrease = 0.9;
+float timePerFrame;
 float time = 0;
 
 void setup() {
-  size(640, 480);
-  strokeWeight(sizeOfCircle);
-  stroke(0, 100, 255);
-  circleVector = new PVector(width/2, 0);
-  frameRate(30);
+    size(640, 480);
+    strokeWeight(sizeOfCircle);
+    stroke(0, 100, 255);
+    circlePositionVector = new PVector(width/2, 0);
 }
 
 void draw() {
-  int currentTime = millis();
-  tpf = (currentTime - time) * 0.001f;
-  background(204);
-  checkBorders();
-  move();
-  point(circleVector.x, circleVector.y);  
-  frame++;
-  time = currentTime;
+    int currentTime = millis();
+    timePerFrame = (currentTime - time) * 0.001f;
+    background(204);
+    checkBorders();
+    move();
+    point(circlePositionVector.x, circlePositionVector.y);  
+    frame++;
+    time = currentTime;
 }
 
 void checkBorders() {
-  if (v.x + circleVector.x >= width + xSpeed*tpf - sizeOfCircle/2) {
-    xSpeed *= -0.9;
-    circleVector.set(width - sizeOfCircle/2 - 1, circleVector.y);
-  } else if (v.x + circleVector.x <= 0 + xSpeed*tpf + sizeOfCircle/2) {
-    xSpeed = abs(xSpeed * 0.9);
-    circleVector.set(0 + sizeOfCircle/2 + 1, circleVector.y);
-  } 
-  if (v.y + circleVector.y >= height + ySpeed*tpf - sizeOfCircle/2) {
-    ySpeed = ySpeed * -0.9;
-    circleVector.set(circleVector.x, height - sizeOfCircle/2 - 1);
-  } 
-  // else if (v.y + circleVector.y <= 0 + ySpeed + sizeOfCircle/2) { //top border
-  //   ySpeed = abs(ySpeed);
-  // }
+    if (velocity.x + circlePositionVector.x >= width + xSpeed*timePerFrame - sizeOfCircle/2) {
+        xSpeed *= -frictionSpeedDecrease;
+        circlePositionVector.set(width - sizeOfCircle/2 - 1, circlePositionVector.y);
+    } else if (velocity.x + circlePositionVector.x <= 0 + xSpeed*timePerFrame + sizeOfCircle/2) {
+        xSpeed = abs(xSpeed * frictionSpeedDecrease);
+        circlePositionVector.set(0 + sizeOfCircle/2 + 1, circlePositionVector.y);
+    } 
+    if (velocity.y + circlePositionVector.y >= height + ySpeed*timePerFrame - sizeOfCircle/2) {
+        ySpeed = ySpeed * -frictionSpeedDecrease;
+        circlePositionVector.set(circlePositionVector.x, height - sizeOfCircle/2 - 1);
+    } 
+    // else if (velocity.y + circlePositionVector.y <= 0 + ySpeed + sizeOfCircle/2) { //top border
+    //     ySpeed = abs(ySpeed);
+    // }
 }
 
 void move() {
-  ySpeed += a*tpf;
-  v.set(xSpeed * tpf, ySpeed * tpf);
-  circleVector.add(v);
+    ySpeed += accelleration * timePerFrame;
+    velocity.set(xSpeed * timePerFrame, ySpeed * timePerFrame);
+    circlePositionVector.add(velocity);
 }
